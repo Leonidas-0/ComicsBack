@@ -1,0 +1,60 @@
+{% extends "mangas/layout.html" %}
+{% load static %}
+{% block body %}
+    <div class="singlemanga">
+        <h3 id="rated">Star to rate</h3>
+        <div data-name="{{ manga.id }}" class="stars" data-rating="{{ rating }}"></div>
+        {% csrf_token %}
+        <a id="title" href="{% url 'manga' manga.id %}">
+            <h2>{{ manga.title }}</h2>
+            <img class="bigimage" src="{{ manga.cover.url }}">
+            {{ manga.Description }}
+        </a>
+        <br />
+        {% for genre in manga.genre.all %}
+            <a class="btn btn-secondary"
+               id="genre"
+               href="{% url 'genresearch' genre.id %}">{{ genre }}</a>
+        {% endfor %}
+        {% for chapter in chapters %}
+            <div>
+                <a href="{% url 'chapter' manga.id chapter.id %}">Chapter {{ chapter.chapter }}</a>
+            </div>
+        {% endfor %}
+        <br>
+        <div id="paginate" aria-label="Page navigation">
+            <ul class="pagination">
+                {% if chapter.has_previous %}
+                    <li>
+                        <a href="?page={{ chapters.previous_page_number }}">
+                            <button class="btn btn-primary">
+                                <
+                            </button>
+                        </a>
+                    </li>
+                {% else %}
+                    <li>
+                        <button class="btn btn-secondary" disabled>
+                            <
+                        </button>
+                    </li>
+                {% endif %}
+                <li>
+                    <a href="#">
+                        <button id="page" class="btn btn-primary">{{ chapters.number }}</button>
+                    </a>
+                </li>
+                {% if mangas.has_next %}
+                    <li>
+                        <a href="?page={{ chapters.next_page_number }}">
+                            <button class="btn btn-primary">></button>
+                        </a>
+                    </li>
+                {% else %}
+                    <li>
+                        <button class="btn btn-secondary" disabled>></button>
+                    </li>
+                {% endif %}
+            </ul>
+            </div>
+    {% endblock %}

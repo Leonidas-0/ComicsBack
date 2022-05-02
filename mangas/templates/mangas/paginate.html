@@ -1,0 +1,35 @@
+<div id="paginate" aria-label="Page navigation">
+    <ul class="pagination">
+        {% if mangas.has_previous %}
+            <li>
+                <a href="?page={{ mangas.previous_page_number }}">
+                    <button class="btn btn-primary">
+                        <
+                    </button>
+                </a>
+            </li>
+        {% else %}
+            <li>
+                <button class="btn btn-secondary" disabled>
+                    <
+                </button>
+            </li>
+        {% endif %}
+        <li>
+            <a href="#">
+                <button id="page" class="btn btn-primary">{{ mangas.number }}</button>
+            </a>
+        </li>
+        {% if mangas.has_next %}
+            <li>
+                <a href="?page={{ mangas.next_page_number }}">
+                    <button class="btn btn-primary">></button>
+                </a>
+            </li>
+        {% else %}
+            <li>
+                <button class="btn btn-secondary" disabled>></button>
+            </li>
+        {% endif %}
+    </ul>
+    </div>

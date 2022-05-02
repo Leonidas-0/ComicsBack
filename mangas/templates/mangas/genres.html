@@ -1,0 +1,13 @@
+{% extends "mangas/layout.html" %}
+{% load static %}
+{% block body %}
+    <div style="text-align:center">
+        <h1>Search by Genre</h1>
+        {% for genre in genres %}
+            <a class="genre"
+               href="{% url 'genresearch' genre.id %}"
+               style="font-size:30px;">{{ genre }}</a>
+            <br>
+        {% endfor %}
+    </div>
+{% endblock %}

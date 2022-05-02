@@ -1,0 +1,20 @@
+{% extends "mangas/layout.html" %}
+{% load static %}
+{% block body %}
+    <h1 style="text-align:center;">Add Manga</h1>
+    <div class="steps">
+        <div class="green"></div>
+        <hr>
+        <div class="gray"></div>
+        <hr>
+        <div class="gray"></div>
+    </div>
+    <br>
+    <div id="addmanga">
+        <form method="POST" enctype='multipart/form-data'>
+            {% csrf_token %}
+            <div>{{ mangaform.as_p }}</div>
+            <button type="submit">Add Manga</button>
+        </form>
+    </div>
+{% endblock %}

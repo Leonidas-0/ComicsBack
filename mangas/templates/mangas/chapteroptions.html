@@ -1,0 +1,12 @@
+{% extends "mangas/layout.html" %}
+{% load static %}
+{% block body %}
+    <div id="mangaselect">
+        <h1>Choose your Mangas</h1>
+        {% for manga in mangas %}
+            <div id="selection">
+                <a href="{% url 'addchapter' manga.id %}">{{ manga.title }}</a>
+            </div>
+        {% endfor %}
+    {% endblock %}
+</div>

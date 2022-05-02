@@ -1,0 +1,24 @@
+{% extends "mangas/layout.html" %}
+{% load static %}
+{% block body %}
+    <div class="selchapter">
+        {% if nextchapter and not prevchapter %}
+            <a class="btn btn-success"
+               href="{% url 'chapter' manga.id nextchapter.id %}">Next Chapter</a>
+        {% elif nextchapter and prevchapter %}
+            <a class="btn btn-success"
+               href="{% url 'chapter' manga.id prevchapter.id %}">Previous Chapter</a>
+            <a class="btn btn-success"
+               href="{% url 'chapter' manga.id nextchapter.id %}">Next Chapter</a>
+        {% elif not nextchapter and prevchapter %}
+            <a class="btn btn-success"
+               href="{% url 'chapter' manga.id prevchapter.id %}">Previous Chapter</a>
+            <a class="btn btn-success" href="{% url 'manga' manga.id %}">Finish reading</a>
+        {% else %}
+            <a class="btn btn-success" href="{% url 'manga' manga.id %}">Finish reading</a>
+        {% endif %}
+    </div>
+    <div class="chapter">
+        {% for page in pages %}<img src="{{ page.image.url }}">{% endfor %}
+    </div>
+{% endblock %}

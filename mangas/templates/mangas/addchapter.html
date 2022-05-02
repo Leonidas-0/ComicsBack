@@ -1,0 +1,30 @@
+{% extends "mangas/layout.html" %}
+{% load static %}
+{% block body %}
+    <h1 style="text-align:center;">
+        Add Chapter Of <u>{{ manga }}</u>
+    </h1>
+    <div class="steps">
+        <div class="green"></div>
+        <hr>
+        <div class="green"></div>
+        <hr>
+        <div class="gray"></div>
+    </div>
+    <br>
+    <div id="addmanga">
+        <form method="POST" enctype='multipart/form-data'>
+            {% csrf_token %}
+            {{ chapterform.as_p }}
+            <label for="pagelength">Number of page(s):</label>
+            <input id="pagelength" name="pagelength">
+            <br>
+            <br>
+            <div>
+                <button type="submit">Submit</button>
+            </div>
+        </form>
+    </div>
+    <br>
+    {% if lastadded %}<div style="text-align:center;">Last added: Chapter {{ lastadded.chapter }}</div>{% endif %}
+{% endblock %}

@@ -1,0 +1,35 @@
+{% extends "mangas/layout.html" %}
+{% load static %}
+{% block body %}
+    <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      try {
+      var input = document.querySelector("#search")
+      input.addEventListener("keyup", () => {
+        document.querySelector("#results").innerHTML = "";
+        let value = (input.value)
+        fetch(`searchresponse/${value}`).then((response) => response.json()).then((results) => {
+          results.forEach(function (result) {
+            var mangaid = (result["id"])
+            document.querySelector("#results").insertAdjacentHTML('beforeend', `<a class="result" id="result${mangaid}">${result["title"]}</a>`);
+            document.getElementById("result"+mangaid).addEventListener("click", () => {
+              window.location.href = "{% url 'manga' 12345 %}".replace(/12345/, mangaid)
+            })
+          })
+        })
+      })
+    }
+    catch (error) {
+    }
+    })
+    </script>
+    <div style="text-align:center;">
+        <h3>No Manga Found. Try different or longer search keyward!</h3>
+        <form id="searchform" action="{% url 'search' %}" method="GET">
+            <input id="search" type="text" name="q" placeholder="Search" />
+            <div>
+                <button class="btn btn-success" id="submit">Search Manga</button>
+            </div>
+        </form>
+    </div>
+{% endblock %}

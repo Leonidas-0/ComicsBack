@@ -1,0 +1,71 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>{% block title %}MangaWorld{% endblock %}</title>
+    <link rel="stylesheet" href="{% static 'mangas/styles.css' %}">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <script src="{% static 'mangas/api.js' %}"></script>
+</head>
+
+<body>
+    <nav>
+        <div class="skew"></div>
+        <div id="maininfo">
+            <div id="navbar">
+                <h1 id="sitename">MangaWorld</h1>
+                <a href="{% url 'index' %}">Home</a> 
+                {% if user.is_authenticated %}
+                {% if request.user.author %}
+                <a href="{% url 'add_manga' %}">Add Manga</a>
+                <a href="{% url 'chapteroptions' %}">Add Chapter</a>
+                {% endif %}
+                <a href="{% url 'genres' %}">Genre Search</a>
+                <a href="{% url 'logout' %}">Log Out</a>
+                {% else %}
+                <a href="{% url 'login' %}">Login</a>
+                {% endif %}
+            </div>
+            <div id="navmenu">
+            </div>
+        </div>
+    </nav>
+    {% if user.is_authenticated %}
+    <div id="username">Logged in as <b>{{ request.user.username }}</b>
+        {% if request.user.author %}(author){% endif %}
+    </div>
+    {% endif %} 
+    <div id="sidebar">
+        <div id="sideinfo" style="display:none">
+            <button id="close" onclick="closes()">Close &times;</button>
+            <div><a href="{% url 'index' %}">Home</a></div>
+            {% if user.is_authenticated %}
+            {% if request.user.author %}
+            <div><a href="{% url 'add_manga' %}">Add Manga</a></div>
+            <div><a href="{% url 'chapteroptions' %}">Add Chapter</a></div>
+            {% endif %}
+            <div><a href="{% url 'genres' %}">Genre Search</a></div>
+            <div><a href="{% url 'logout' %}">Log Out</a></div>
+            {% else %}
+            <div><a href="{% url 'login' %}">Login</a></div>
+            {% endif %}
+        </div>
+        <button id="side" onclick="opens()">☰</button>
+    </div>
+    {% block body %}
+    {% endblock %}
+</body>
+<script>
+    function opens() {
+        document.getElementById("sideinfo").style.display = "block";
+        document.getElementById("side").style.display = "none";
+    }
+
+    function closes() {
+        document.getElementById("sideinfo").style.display = "none";
+        document.getElementById("side").style.display = "block";
+    }
+</script>

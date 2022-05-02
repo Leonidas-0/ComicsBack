@@ -1,0 +1,265 @@
+html body {
+    background-color: rgb(196, 196, 196);
+}
+
+
+.manganum {
+    text-align: center;
+}
+
+.image {
+    width: 50%;
+}
+
+
+#mangas {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+}
+
+.manga {
+    width: 500px;
+}
+
+nav {
+    display: flex;
+    position: relative;
+    flex-wrap: wrap;
+    justify-content: center;
+    height: 55px;
+    background-color: rgb(1, 74, 1);
+}
+
+#search {
+    margin-bottom: 8px;
+}
+
+#results {
+    position: absolute;
+    left: 0;
+    right: 0;
+    margin-left: auto;
+    margin-right: auto;
+    border-radius: 4px;
+    width: 150px;
+    background-color: gainsboro;
+}
+
+#title {
+    color: black;
+    text-decoration: none;
+}
+
+#genre {
+    margin: 5px;
+}
+
+.rating {
+    width: 20px;
+    background: none;
+    color: inherit;
+    padding: 0;
+    font: inherit;
+    cursor: pointer;
+    border: none;
+    outline: 0 !important;
+    font-size: 20px;
+}
+
+.result {
+    cursor: pointer;
+    display: block;
+}
+
+#rated {
+    visibility: hidden;
+}
+
+#searchform {
+    margin: 0px;
+}
+
+.bigimage {
+    width: 50%;
+}
+
+.singlemanga {
+    text-align: center;
+}
+
+.chapter img {
+    width: 50%;
+}
+
+.chapter {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.selchapter {
+    display: flex;
+    justify-content: center;
+    margin: 10px;
+}
+
+#sitename {
+    color: white;
+    display: inline-block;
+}
+
+#addmanga {
+    display: flex;
+    flex-wrap: wrap;
+    left: 40%;
+    justify-content: space-around;
+
+}
+
+#addchapter {
+    display: flex;
+    flex-wrap: wrap;
+    left: 50%;
+}
+
+.green {
+    position: relative;
+    top: 8px;
+    width: 20px;
+    height: 20px;
+    background: rgb(0, 161, 0);
+    border-radius: 50%
+}
+
+
+.gray {
+    position: relative;
+    top: 8px;
+    width: 20px;
+    height: 20px;
+    background: gray;
+    border-radius: 50%
+}
+
+.steps {
+    display: flex;
+    justify-content: space-around;
+    flex-direction: row;
+    width: 30%;
+    margin: 0 auto;
+}
+
+hr {
+    border: 0;
+    clear: both;
+    display: block;
+    width: 30%;
+    background-color: black;
+    height: 1px;
+}
+
+.skew {
+    left: -10px;
+    position: absolute;
+    width: 255px;
+    height: 55px;
+    background-color: rgb(26, 39, 39);
+    transform: skew(15deg);
+}
+
+#maininfo {
+    position: absolute;
+}
+
+#mangaselect {
+    text-align: center;
+}
+
+#selection {
+    font-size: 30px;
+}
+
+#selection a:hover {
+    text-decoration: none;
+    color: #e96645;
+    transition: 0.5s;
+}
+
+#navbar {
+    display: flex;
+    gap: 100px;
+    align-items: center;
+}
+
+nav a {
+    text-decoration: none;
+    color: #3fb906;
+}
+
+
+nav a:hover {
+    text-decoration: none;
+    color: #e96645;
+    transition: 0.5s;
+}
+
+#sidebar {
+    display: none;
+    position: absolute;
+    top: 0;
+    right: 0;
+    background-color: rgb(1, 74, 1);
+    border-radius: 5px;
+    text-align: center;
+}
+
+#sidebar a {
+    color: #3fb906;
+    font-size: large;
+}
+
+@media (max-width : 910px) {
+    nav a {
+        display: none;
+    }
+
+    #sidebar {
+        display: block;
+    }
+}
+
+#close {
+    width: 100px;
+    border: none;
+    background: none;
+}
+
+#side {
+    background-color: rgb(1, 74, 1);
+    color: #3fb906;
+    width: 55px;
+    height: 55px;
+}
+
+#sidebar a:hover {
+    text-decoration: none;
+    color: #e96645;
+    transition: 0.5s;
+}
+
+
+.genre:hover {
+    text-decoration: none;
+    color: #e96645;
+    transition: 0.5s;
+}
+
+#paginate {
+    display: inline-block;
+    text-align: center;
+}
+
+#side {
+    font-size: larger;
+}

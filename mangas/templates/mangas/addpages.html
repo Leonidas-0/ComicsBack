@@ -1,0 +1,27 @@
+{% extends "mangas/layout.html" %}
+{% load static %}
+{% block body %}
+    <h1 style="text-align:center;">Add Page(s)</h1>
+    <div class="steps">
+        <div class="green"></div>
+        <hr>
+        <div class="green"></div>
+        <hr>
+        <div class="green"></div>
+    </div>
+    <div id="addmanga">
+        {% for i in pagenum %}
+            <form action="upload.php" method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                <div>
+                    <label>page(s) {{ forloop.counter }}</label>
+                </div>
+                <div>
+                    <input type="file" name="image{{ forloop.counter }}">
+                </div>
+            {% endfor %}
+            <br>
+            <input type="submit" name="submit" value="Upload">
+        </form>
+    </div>
+{% endblock %}
