@@ -26,9 +26,10 @@ def index(request):
         if rating == None:
             rating = 0
         ratings.append(rating)
-    zippedList = zip(mangas, ratings)
-    paginated = paginate(request, list(zippedList), 8)
-    return render(request, "mangas/index.html", {"mangas": paginated, })
+    # zippedList = zip(mangas, ratings)
+    # paginated = paginate(request, list(zippedList), 8)
+    return(JsonResponse([l.serialize() for l in Manga.objects.all()], safe=False))
+    # return render(request, "mangas/index.html", {"mangas": paginated, })
 
 
 def paginate(request, titles, num):
@@ -209,12 +210,14 @@ def chapterview(request, manga_id, chapter_id):
 
 
 def searchresponse(request, q):
-    if len(q) > 1:
-        resultlist = [i.serialize() for i in Manga.objects.all()
-                   if q.lower() in i.title.lower()]
-    if not resultlist:
+    resultlist = [i.serialize() for i in Manga.objects.all()
+        if q.lower() in i.title.lower()]
+    if resultlist:
+        if len(q) > 1:
+            return(JsonResponse(resultlist, safe=False))
+        else: return JsonResponse("", safe=False)
+    else:
         return JsonResponse("", safe=False)
-    return(JsonResponse(resultlist, safe=False))
 
 
 def login_view(request):

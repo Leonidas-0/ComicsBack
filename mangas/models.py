@@ -3,7 +3,7 @@ import re
 from django.contrib.auth.models import AbstractUser
 from django.db import models
 from django.core.validators import MinValueValidator, MaxValueValidator
-
+import os
 
 class User(AbstractUser):
     author = models.BooleanField(default=False)
@@ -25,7 +25,8 @@ class Manga(models.Model):
     def serialize(self):
         return {
         "id":self.id,
-        "title": self.title,
+        "label": self.title,
+        "cover": os.path.basename(self.cover.name)
     }
 
 class Category(models.Model):
