@@ -161,7 +161,7 @@ def manga(request, manga_id):
         rating = 0
     chapters = Chapter.objects.filter(manga__in=[manga])
     paginated = paginate(request, list(chapters), 100)
-    return(JsonResponse(manga.serialize(), safe=False))
+    return(JsonResponse(manga.serialize(),  safe=False))
     # return render(request, "mangas/manga.html", {"chapters": paginated, "manga": manga, "rating": rating})
 
 

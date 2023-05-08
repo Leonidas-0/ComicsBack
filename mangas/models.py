@@ -18,7 +18,7 @@ class Manga(models.Model):
                           null = True,
                           upload_to ='')
     chapters=models.ManyToManyField('chapter',  blank = True, related_name="mangas")
-    
+
     def __str__(self):
         return f"{self.title}"
 
@@ -26,7 +26,9 @@ class Manga(models.Model):
         return {
         "id":self.id,
         "label": self.title,
-        "cover": os.path.basename(self.cover.name)
+        "description":self.description,
+        "cover": os.path.basename(self.cover.name),
+        "chapters":[l.chapter for l in self.chapters.all()]
     }
 
 class Category(models.Model):
