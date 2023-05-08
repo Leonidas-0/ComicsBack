@@ -11,6 +11,7 @@ class User(AbstractUser):
 class Manga(models.Model):
     title = models.CharField(max_length=50)
     ratings = models.ManyToManyField('rating', blank=True, related_name="mangas")
+    basicRating= models.ManyToManyField('BasicRating', blank=True, related_name="mangas")
     author = models.ForeignKey(User, null=True, on_delete=models.CASCADE)
     description = models.CharField(max_length=300)
     genre=models.ManyToManyField('Category', max_length=300)
@@ -28,6 +29,7 @@ class Manga(models.Model):
         "label": self.title,
         "description":self.description,
         "cover": os.path.basename(self.cover.name),
+        "ratings": [l.rating for l in self.basicRating.all()],
         "chapters":[l.chapter for l in self.chapters.all()]
     }
 
@@ -43,6 +45,12 @@ class Rating(models.Model):
                                        MaxValueValidator(5)])
     def __str__(self):
         return f"{self.manga}, {self.user}, {self.rating} stars"
+
+class BasicRating(models.Model):
+    manga=models.ForeignKey(Manga, null=True, on_delete=models.CASCADE)
+    rating=models.IntegerField(validators=[MinValueValidator(0),
+                                       MaxValueValidator(5)])
+
 
 class Image(models.Model):
     manga=models.ForeignKey(Manga, null=True, on_delete=models.CASCADE)

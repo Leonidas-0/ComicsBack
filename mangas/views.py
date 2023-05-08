@@ -3,7 +3,7 @@ import re
 from django.shortcuts import render
 from urllib.request import Request
 from django.contrib.auth import authenticate, login, logout
-from .models import User, Manga, Category, Chapter, Rating, Image
+from .models import User, Manga, Category, Chapter, Rating, Image, BasicRating
 from .forms import MangaForm, ChapterForm, ImageForm
 from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
 from django.db import IntegrityError
@@ -14,7 +14,6 @@ from django.db.models import Max
 from datetime import datetime
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator
-
 
 def index(request):
     mangas = Manga.objects.annotate(recent_date=Max(
@@ -165,18 +164,21 @@ def manga(request, manga_id):
     # return render(request, "mangas/manga.html", {"chapters": paginated, "manga": manga, "rating": rating})
 
 
-@login_required(login_url='http://127.0.0.1:8000/login')
+# @login_required(login_url='http://127.0.0.1:8000/login')
 def rate(request, manga_id, num):
-    if request.method == "POST":
-        rated = Manga.objects.filter(id=manga_id).filter(
-            ratings__user__in=[request.user])
-        if not rated:
-            newrating = Rating.objects.create(manga=Manga.objects.get(
-                id=manga_id), user=request.user, rating=int(num) + 1)
-            Manga.objects.get(id=manga_id).ratings.add(newrating)
-            return(JsonResponse([num], safe=False))
-        else:
-            return(JsonResponse("Rated previously!", safe=False))
+    newrating = BasicRating.objects.create(manga=Manga.objects.get(id=manga_id), rating=int(num))
+    Manga.objects.get(id=manga_id).basicRating.add(newrating)
+    return(JsonResponse(("ok"), safe=False))
+    # if request.method == "POST":
+    #     rated = Manga.objects.filter(id=manga_id).filter(
+    #         ratings__user__in=[request.user])
+    #     if not rated:
+    #         newrating = Rating.objects.create(manga=Manga.objects.get(
+    #             id=manga_id), user=request.user, rating=int(num) + 1)
+    #         Manga.objects.get(id=manga_id).ratings.add(newrating)
+    #         return(JsonResponse([num], safe=False))
+    #     else:
+    #         return(JsonResponse("Rated previously!", safe=False))
 
 
 @login_required(login_url='http://127.0.0.1:8000/login')
