@@ -18,7 +18,7 @@ class Manga(models.Model):
                           null = True,
                           upload_to ='')
     chapters=models.ManyToManyField('chapter',  blank = True, related_name="mangas")
-
+    
     def __str__(self):
         return f"{self.title}"
 

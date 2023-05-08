@@ -152,7 +152,7 @@ def addmanga(request):
     return render(request, "mangas/addmanga.html", {"mangaform": newmanga})
 
 
-@login_required(login_url='http://127.0.0.1:8000/login')
+# @login_required(login_url='http://127.0.0.1:8000/login')
 def manga(request, manga_id):
     manga = Manga.objects.get(id=manga_id)
     ratingdict = manga.ratings.aggregate(Avg('rating'))
@@ -161,7 +161,8 @@ def manga(request, manga_id):
         rating = 0
     chapters = Chapter.objects.filter(manga__in=[manga])
     paginated = paginate(request, list(chapters), 100)
-    return render(request, "mangas/manga.html", {"chapters": paginated, "manga": manga, "rating": rating})
+    return(JsonResponse(manga.serialize(), safe=False))
+    # return render(request, "mangas/manga.html", {"chapters": paginated, "manga": manga, "rating": rating})
 
 
 @login_required(login_url='http://127.0.0.1:8000/login')
