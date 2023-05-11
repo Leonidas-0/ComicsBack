@@ -65,10 +65,11 @@ def search(request):
         return render(request, "mangas/notfound.html")
 
 
-@login_required(login_url='http://127.0.0.1:8000/login')
+# @login_required(login_url='http://127.0.0.1:8000/login')
 def genres(request):
-    genres = Category.objects.all()
-    return render(request, "mangas/genres.html", {"genres": genres})
+    genres = Category.objects.values_list('category')
+    return(JsonResponse(list(set(genres.values_list('category', flat=True))), safe=False))
+    # return render(request, "mangas/genres.html", {"genres": genres})
 
 
 @login_required(login_url='http://127.0.0.1:8000/login')
@@ -168,7 +169,8 @@ def manga(request, manga_id):
 def rate(request, manga_id, num):
     newrating = BasicRating.objects.create(manga=Manga.objects.get(id=manga_id), rating=int(num))
     Manga.objects.get(id=manga_id).basicRating.add(newrating)
-    return(JsonResponse(("ok"), safe=False))
+    rating=[l.rating for l in Manga.objects.get(id=manga_id).basicRating.all()]
+    return(JsonResponse(([rating]), safe=False))
     # if request.method == "POST":
     #     rated = Manga.objects.filter(id=manga_id).filter(
     #         ratings__user__in=[request.user])

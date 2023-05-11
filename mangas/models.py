@@ -37,6 +37,10 @@ class Category(models.Model):
     category = models.CharField(max_length=50)
     def __str__(self):
         return f"{self.category}"
+    def serialize(self):
+        return {
+        "genre":self.category,
+    }
 
 class Rating(models.Model):
     user=models.ForeignKey(User, null=True, on_delete=models.CASCADE)
@@ -50,6 +54,9 @@ class BasicRating(models.Model):
     manga=models.ForeignKey(Manga, null=True, on_delete=models.CASCADE)
     rating=models.IntegerField(validators=[MinValueValidator(0),
                                        MaxValueValidator(5)])
+    
+    def __str__(self):
+        return f"{self.manga}"
 
 
 class Image(models.Model):
