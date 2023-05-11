@@ -79,3 +79,10 @@ class Chapter(models.Model):
 
     class Meta:
         ordering = ('-date',)
+
+            
+    def serialize(self):
+        return {
+            "images": [l.images for l in self.images.all()],
+        }
+

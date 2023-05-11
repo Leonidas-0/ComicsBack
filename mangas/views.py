@@ -189,29 +189,31 @@ def chapteroptions(request):
     return render(request, "mangas/chapteroptions.html", {"mangas": mangas})
 
 
-@login_required(login_url='http://127.0.0.1:8000/login')
+# @login_required(login_url='http://127.0.0.1:8000/login')
 def chapterview(request, manga_id, chapter_id):
     manga = Manga.objects.get(id=manga_id)
     chapter = Chapter.objects.filter(manga__in=[manga]).get(id=chapter_id)
-    pages = chapter.images.all()
-    mangachapters = list(Chapter.objects.filter(mangas__id=manga_id))[::-1]
-    count = 0
-    for i in mangachapters:
-        count += 1
-        if i == chapter:
-            try:
-                nextchapter = mangachapters[count]
-            except IndexError:
-                nextchapter = None
-            try:
-                if count-2 != -1:
-                    prevchapter = mangachapters[count-2]
-                else:
-                    prevchapter = None
-            except IndexError:
-                prevchapter = None
-            break
-    return render(request, "mangas/pages.html", {"chapter": chapter, "nextchapter": nextchapter, "prevchapter": prevchapter, "manga": manga, "pages": pages})
+    return(JsonResponse([l.serialize() for l in Manga.objects.all()], safe=False))
+    # pages = chapter.images.all()
+    # mangachapters = list(Chapter.objects.filter(mangas__id=manga_id))[::-1]
+    # count = 0
+    # for i in mangachapters:
+    #     count += 1
+    #     if i == chapter:
+    #         try:
+    #             nextchapter = mangachapters[count]
+    #         except IndexError:
+    #             nextchapter = None
+    #         try:
+    #             if count-2 != -1:
+    #                 prevchapter = mangachapters[count-2]
+    #             else:
+    #                 prevchapter = None
+    #         except IndexError:
+    #             prevchapter = None
+    #         break
+    # return render(request, "mangas/pages.html", {"chapter": chapter, "nextchapter": nextchapter, "prevchapter": prevchapter, "manga": manga, "pages": pages})
+
 
 
 def searchresponse(request, q):
