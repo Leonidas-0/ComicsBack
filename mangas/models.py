@@ -30,7 +30,7 @@ class Manga(models.Model):
         "description":self.description,
         "cover": os.path.basename(self.cover.name),
         "ratings": [l.rating for l in self.basicRating.all()],
-        "chapters":[l.chapter for l in self.chapters.all()]
+        "chapters":[l.chapter for l in self.chapters.all()],
     }
 
 class Category(models.Model):
@@ -71,6 +71,7 @@ class Image(models.Model):
     def serialize(self):
         return {
             "images": os.path.basename(self.image.name),
+            "length": self.manga.chapters.all().count(),
         }
 class Chapter(models.Model):
     chapter=models.IntegerField()
