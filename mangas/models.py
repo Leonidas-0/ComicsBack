@@ -68,7 +68,10 @@ class Image(models.Model):
     def __str__(self):
         return f"{self.manga} Chapter {self.chapter.chapter} page"
 
-
+    def serialize(self):
+        return {
+            "images": os.path.basename(self.image.name),
+        }
 class Chapter(models.Model):
     chapter=models.IntegerField()
     manga=models.ForeignKey(Manga, null=True, on_delete=models.CASCADE)
@@ -80,9 +83,4 @@ class Chapter(models.Model):
     class Meta:
         ordering = ('-date',)
 
-            
-    def serialize(self):
-        return {
-            "images": [l.images for l in self.images.all()],
-        }
-
+        

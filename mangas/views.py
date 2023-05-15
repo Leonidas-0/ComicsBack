@@ -25,10 +25,7 @@ def index(request):
         if rating == None:
             rating = 0
         ratings.append(rating)
-    # zippedList = zip(mangas, ratings)
-    # paginated = paginate(request, list(zippedList), 8)
     return(JsonResponse([l.serialize() for l in Manga.objects.all()], safe=False))
-    # return render(request, "mangas/index.html", {"mangas": paginated, })
 
 
 def paginate(request, titles, num):
@@ -69,7 +66,6 @@ def search(request):
 def genres(request):
     genres = Category.objects.values_list('category')
     return(JsonResponse(list(set(genres.values_list('category', flat=True))), safe=False))
-    # return render(request, "mangas/genres.html", {"genres": genres})
 
 
 @login_required(login_url='http://127.0.0.1:8000/login')
@@ -162,7 +158,6 @@ def manga(request, manga_id):
     chapters = Chapter.objects.filter(manga__in=[manga])
     paginated = paginate(request, list(chapters), 100)
     return(JsonResponse(manga.serialize(),  safe=False))
-    # return render(request, "mangas/manga.html", {"chapters": paginated, "manga": manga, "rating": rating})
 
 
 # @login_required(login_url='http://127.0.0.1:8000/login')
@@ -171,16 +166,6 @@ def rate(request, manga_id, num):
     Manga.objects.get(id=manga_id).basicRating.add(newrating)
     rating=[l.rating for l in Manga.objects.get(id=manga_id).basicRating.all()]
     return(JsonResponse(([rating]), safe=False))
-    # if request.method == "POST":
-    #     rated = Manga.objects.filter(id=manga_id).filter(
-    #         ratings__user__in=[request.user])
-    #     if not rated:
-    #         newrating = Rating.objects.create(manga=Manga.objects.get(
-    #             id=manga_id), user=request.user, rating=int(num) + 1)
-    #         Manga.objects.get(id=manga_id).ratings.add(newrating)
-    #         return(JsonResponse([num], safe=False))
-    #     else:
-    #         return(JsonResponse("Rated previously!", safe=False))
 
 
 @login_required(login_url='http://127.0.0.1:8000/login')
@@ -191,29 +176,8 @@ def chapteroptions(request):
 
 # @login_required(login_url='http://127.0.0.1:8000/login')
 def chapterview(request, manga_id, chapter_id):
-    manga = Manga.objects.get(id=manga_id)
-    chapter = Chapter.objects.filter(manga__in=[manga]).get(id=chapter_id)
-    return(JsonResponse([l.serialize() for l in Manga.objects.all()], safe=False))
-    # pages = chapter.images.all()
-    # mangachapters = list(Chapter.objects.filter(mangas__id=manga_id))[::-1]
-    # count = 0
-    # for i in mangachapters:
-    #     count += 1
-    #     if i == chapter:
-    #         try:
-    #             nextchapter = mangachapters[count]
-    #         except IndexError:
-    #             nextchapter = None
-    #         try:
-    #             if count-2 != -1:
-    #                 prevchapter = mangachapters[count-2]
-    #             else:
-    #                 prevchapter = None
-    #         except IndexError:
-    #             prevchapter = None
-    #         break
-    # return render(request, "mangas/pages.html", {"chapter": chapter, "nextchapter": nextchapter, "prevchapter": prevchapter, "manga": manga, "pages": pages})
-
+    chapter = Chapter.objects.get(manga=manga_id, chapter=chapter_id)
+    return(JsonResponse([l.serialize() for l in chapter.images.all()], safe=False))
 
 
 def searchresponse(request, q):
