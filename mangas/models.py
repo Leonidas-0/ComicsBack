@@ -31,6 +31,7 @@ class Manga(models.Model):
         "cover": os.path.basename(self.cover.name),
         "ratings": [l.rating for l in self.basicRating.all()],
         "chapters":[l.chapter for l in self.chapters.all()],
+        "date": [l.date for l in self.chapters.all()],
     }
 
 class Category(models.Model):

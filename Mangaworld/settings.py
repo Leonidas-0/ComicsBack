@@ -130,6 +130,10 @@ MEDIA_URL = '/media/'
 AUTH_USER_MODEL = 'mangas.User' 
 LOGIN_REDIRECT_URL='http://127.0.0.1:8000/login'
 CSRF_TRUSTED_ORIGINS=["http://localhost:3000"]
-CORS_ORIGIN_ALLOW_ALL = True
+# CORS_ORIGIN_ALLOW_ALL = True
+CORS_ALLOWED_ORIGINS = [
+"http://localhost:3000"
+]
+# DATE_INPUT_FORMATS = ['%d-%m-%Y']
 # STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 

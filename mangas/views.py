@@ -18,14 +18,14 @@ from django.core.paginator import Paginator
 def index(request):
     mangas = Manga.objects.annotate(recent_date=Max(
         'chapters__date')).order_by('-recent_date')
-    ratings = []
-    for i in mangas:
-        ratingdict = i.ratings.aggregate(Avg('rating'))
-        rating = ratingdict.get('rating__avg')
-        if rating == None:
-            rating = 0
-        ratings.append(rating)
-    return(JsonResponse([l.serialize() for l in Manga.objects.all()], safe=False))
+    # ratings = []
+    # for i in mangas:
+    #     ratingdict = i.ratings.aggregate(Avg('rating'))
+    #     rating = ratingdict.get('rating__avg')
+    #     if rating == None:
+    #         rating = 0
+    #     ratings.append(rating)
+    return(JsonResponse([l.serialize() for l in mangas], safe=False))
 
 
 def paginate(request, titles, num):
@@ -68,20 +68,21 @@ def genres(request):
     return(JsonResponse(list(set(genres.values_list('category', flat=True))), safe=False))
 
 
-@login_required(login_url='http://127.0.0.1:8000/login')
+# @login_required(login_url='http://127.0.0.1:8000/login')
 def genresearch(request, genre_id):
-    mangas = Manga.objects.filter(genre__id__in=[genre_id]).annotate(
+    mangas = Manga.objects.filter(genre__category=genre_id).annotate(
         recent_date=Max('chapters__date')).order_by('-recent_date')
-    genre = Category.objects.get(id=genre_id)
-    ratings = []
-    for i in mangas:
-        ratingdict = i.ratings.aggregate(Avg('rating'))
-        rating = ratingdict.get('rating__avg')
-        if rating == None:
-            rating = 0
-        ratings.append(rating)
-    zippedList = zip(mangas, ratings)
-    return render(request, "mangas/genresearch.html", {"mangas": zippedList, "genre": genre, "length": len(Manga.objects.all())})
+    return(JsonResponse([l.serialize() for l in mangas], safe=False))
+    # genre = Category.objects.get(id=genre_id)
+    # ratings = []
+    # for i in mangas:
+    #     ratingdict = i.ratings.aggregate(Avg('rating'))
+    #     rating = ratingdict.get('rating__avg')
+    #     if rating == None:
+    #         rating = 0
+    #     ratings.append(rating)
+    # zippedList = zip(mangas, ratings)
+    # return render(request, "mangas/genresearch.html", {"mangas": zippedList, "genre": genre, "length": len(Manga.objects.all())})
 
 
 @login_required(login_url='http://127.0.0.1:8000/login')
@@ -184,9 +185,9 @@ def searchresponse(request, q):
     resultlist = [i.serialize() for i in Manga.objects.all()
         if q.lower() in i.title.lower()]
     if resultlist:
-        if len(q) > 1:
-            return(JsonResponse(resultlist, safe=False))
-        else: return JsonResponse("", safe=False)
+        # if len(q) > 1:
+        return(JsonResponse(resultlist, safe=False))
+        # else: return JsonResponse("", safe=False)
     else:
         return JsonResponse("", safe=False)
 
